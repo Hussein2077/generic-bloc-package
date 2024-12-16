@@ -1,8 +1,7 @@
 name: generic_bloc
 description: "A generic BLoC package for Flutter apps."
-version: 0.0.1
-author: Hussein Yasser husseinyasser2077@gmail.com
-homepage:
+version: 0.0.3
+homepage: https://github.com/Hussein2077/generic-bloc-package
 
 
 environment:

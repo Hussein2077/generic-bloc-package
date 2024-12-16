@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:genaric_bloc/generic_bloc.dart';
+import 'package:generic_bloc/generic_bloc.dart';
 
 void main() {
   test('GenericBloc initial state should be GenericInitial', () {

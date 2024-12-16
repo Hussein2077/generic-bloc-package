@@ -1,8 +1,9 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:genaric_bloc/src/generic_event.dart';
-import 'package:genaric_bloc/src/generic_state.dart';
+
+import '../generic_bloc.dart';
+
 
 class GenericBloc<T, P,F> extends Bloc<GenericEvent<P>, GenericState<T>> {
   final Future<Either<T, F>> Function(P) callFunction;
