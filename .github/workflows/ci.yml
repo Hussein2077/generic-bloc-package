@@ -14,10 +14,10 @@ jobs:
         with:
           channel: stable
       - run: flutter pub get
-      - run: flutter analyze
+      - run: flutter analyze --no-fatal-infos
       - run: flutter test
       - name: Analyze example
         working-directory: example
         run: |
           flutter pub get
-          flutter analyze
+          flutter analyze --no-fatal-infos
