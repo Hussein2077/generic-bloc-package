@@ -8,13 +8,20 @@ import 'package:generic_bloc/generic_bloc.dart';
 
 typedef NameBloc = GenericBloc<String, int, String>;
 
+/// The provider owns the bloc and closes it when the tree is disposed.
+/// Awaiting `bloc.close()` directly inside `testWidgets` can hang, because
+/// it waits on stream work that the fake test clock never runs.
 Widget wrap(NameBloc bloc, Widget child) {
   return MaterialApp(
     home: Scaffold(
-      body: BlocProvider<NameBloc>.value(value: bloc, child: child),
+      body: BlocProvider<NameBloc>(create: (_) => bloc, child: child),
     ),
   );
 }
+
+/// Removes the widget tree, which closes the bloc.
+Future<void> disposeTree(WidgetTester tester) =>
+    tester.pumpWidget(const SizedBox.shrink());
 
 void main() {
   testWidgets('shows loading, then the data', (tester) async {
@@ -34,7 +41,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Hello Hussein'), findsOneWidget);
 
-    await bloc.close();
+    await disposeTree(tester);
   });
 
   testWidgets('shows the failure message and retries', (tester) async {
@@ -58,7 +65,7 @@ void main() {
     expect(find.text('Ok'), findsOneWidget);
     expect(calls, 2);
 
-    await bloc.close();
+    await disposeTree(tester);
   });
 
   testWidgets('shows the empty widget', (tester) async {
@@ -77,7 +84,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('No names'), findsOneWidget);
 
-    await bloc.close();
+    await disposeTree(tester);
   });
 
   testWidgets('keeps the old data on screen during a refresh', (tester) async {
@@ -105,6 +112,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('second'), findsOneWidget);
 
-    await bloc.close();
+    await disposeTree(tester);
   });
 }
